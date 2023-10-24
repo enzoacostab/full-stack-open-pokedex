@@ -27,6 +27,9 @@ jobs:
         with:
           build: npm run build
           start: npm start
+      - name: Skip production deployment
+        if: contains(github.event.pull_request.body, '#skip')
+        run: exit 0
       - name: Trigger deployment
         if: ${{ github.event_name == 'push' }}
         run: curl ${{secrets.RENDER_DEPLOY_HOOK_URL}}
